@@ -14,6 +14,7 @@ namespace VV
     public partial class Form1 : Form
     {
         private Timer t;
+        private List<String> logs = new List<String>();
 
         public Form1()
         {
@@ -21,8 +22,6 @@ namespace VV
             t = new Timer() { Interval = 500 };
             t.Tick += CheckForBiddingAsync;
         }
-
-        private List<String> logs = new List<String>();
 
         private void log(string text)
         {
@@ -51,10 +50,9 @@ namespace VV
             return !htmlCode.Contains("Win jij de volgende veiling?");
         }
 
-        private void CheckForBiddingAsync(object sender, EventArgs e)
+        private async void CheckForBiddingAsync(object sender, EventArgs e)
         {
             CheckForBidding();
-            //await Task.Run(() => CheckForBidding());
         }
 
         private async void CheckForBidding()
@@ -140,6 +138,9 @@ namespace VV
                     await Task.Delay(1000);
                     t.Start();
                 }
+            } else
+            {
+                t.Start();
             }
         }
 
