@@ -35,7 +35,7 @@
             this.PlaceBidWhen = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.LogBox = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.StartStopButton = new System.Windows.Forms.Button();
             this.lblTimeLeft = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -105,15 +105,15 @@
             this.LogBox.TabIndex = 6;
             this.LogBox.WordWrap = false;
             // 
-            // button1
+            // StartStopButton
             // 
-            this.button1.Location = new System.Drawing.Point(381, 6);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "Start";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.StartStopButton.Location = new System.Drawing.Point(381, 6);
+            this.StartStopButton.Name = "StartStopButton";
+            this.StartStopButton.Size = new System.Drawing.Size(75, 23);
+            this.StartStopButton.TabIndex = 7;
+            this.StartStopButton.Text = "Start";
+            this.StartStopButton.UseVisualStyleBackColor = true;
+            this.StartStopButton.Click += new System.EventHandler(this.button1_Click);
             // 
             // lblTimeLeft
             // 
@@ -132,7 +132,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(703, 407);
             this.Controls.Add(this.lblTimeLeft);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.StartStopButton);
             this.Controls.Add(this.LogBox);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.PlaceBidWhen);
@@ -156,7 +156,7 @@
         private System.Windows.Forms.TextBox PlaceBidWhen;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox LogBox;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button StartStopButton;
         private System.Windows.Forms.Label lblTimeLeft;
     }
 }

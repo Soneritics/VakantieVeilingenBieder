@@ -18,13 +18,13 @@ namespace VV
         public Form1()
         {
             InitializeComponent();
-            t = new Timer() { Interval = 250 };
-            t.Tick += CheckForBidding;
+            t = new Timer() { Interval = 500 };
+            t.Tick += CheckForBiddingAsync;
         }
 
         private List<String> logs = new List<String>();
 
-        private async void log(string text)
+        private void log(string text)
         {
             logs.Insert(0, text);
             LogBox.Lines = logs.ToArray();
@@ -51,8 +51,16 @@ namespace VV
             return !htmlCode.Contains("Win jij de volgende veiling?");
         }
 
-        private void CheckForBidding(object sender, EventArgs e)
+        private void CheckForBiddingAsync(object sender, EventArgs e)
         {
+            CheckForBidding();
+            //await Task.Run(() => CheckForBidding());
+        }
+
+        private async void CheckForBidding()
+        {
+            t.Stop();
+
             var secsLeft = 0;
             var timeString = "00:00:00";
             var currentBid = 0;
@@ -61,8 +69,11 @@ namespace VV
             try
             {
                 htmlCode = browser.Document.Body.InnerHtml;
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
+                log("Exception: " + ex.Message);
+                t.Start();
                 return;
             }
 
@@ -95,34 +106,38 @@ namespace VV
             // Actions
             if (secsLeft == int.Parse(PlaceBidWhen.Text))
             {
-                t.Stop();
-
                 var myBid = int.Parse(MyBid.Text);
                 if (currentBid >= myBid)
                 {
                     log($"No bid placed, as your bid is too low (current bid: {currentBid})");
-                } else
+                }
+                else
                 {
                     placeBid(myBid);
                     log("Bid placed");
                 }
 
-                System.Threading.Thread.Sleep(1000);
+                await Task.Delay(1000);
                 t.Start();
-            } else if (secsLeft == 0)
+            }
+            else if (secsLeft == 0)
             {
                 t.Stop();
                 log("Auction ended.");
-                System.Threading.Thread.Sleep(1000);
+
+                await Task.Delay(10000);
 
                 if (wonTheAuction())
                 {
                     log("Looks like you won the auction!");
                     log("Stopping bidding");
-                } else
+                    StartStopButton.Text = "Start";
+                }
+                else
                 {
-                    browser.Refresh();
                     log("Refreshing page..");
+                    browser.Refresh();
+                    await Task.Delay(1000);
                     t.Start();
                 }
             }
