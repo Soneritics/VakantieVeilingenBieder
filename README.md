@@ -13,6 +13,13 @@ De applicatie gaat nu automatisch jouw bod plaatsen voordat de veiling is afgelo
 Indien je niet gewonnen hebt wordt de pagina herladen om de volgende veiling te starten.
 Indien je wel gewonnen hebt zal de applicatie stoppen.
 
+## Waarom deze applicatie gebruiken?
+ - Je wil graag een veiling winnen, maar er niet de hoofdprijs voor betalen
+ - Niet meer in de gaten hoeven houden wanneer een veiling afloopt
+ - Gemak; je krijgt vanzelf een mail als je gewonnen hebt
+ - Log van de hoogste biedingen van afgelopen veilingen
+ - Niet in de verleiding komen hoger te bieden dan je zou willen
+
 ## Contact
 Voor vragen kun je mailen op: vv-github@jordijolink.nl
 
