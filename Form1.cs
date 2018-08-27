@@ -76,10 +76,10 @@ namespace VV
             }
 
             // Time
-            var match = Regex.Match(htmlCode, "<div class=\"relative time-container\">(.*)</div>", RegexOptions.Multiline);
+            var match = Regex.Match(htmlCode, "<div class=\"relative time-container jsDisplayedTimeValue\">(.*)</div>", RegexOptions.Multiline);
             if (match.Success)
             {
-                var timeMatches = Regex.Matches(match.Value, "<span class=\"time-value\">(\\d*)(<span|<\\/span)", RegexOptions.Multiline);
+                var timeMatches = Regex.Matches(match.Value, "<span class=\"time-value.*?\">(\\d*)(<span|<\\/span)", RegexOptions.Multiline);
                 if (timeMatches.Count == 3)
                 {
                     var h = (timeMatches[0] as Match).Groups[1].Value;
