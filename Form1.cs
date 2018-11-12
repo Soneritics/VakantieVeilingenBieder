@@ -31,8 +31,15 @@ namespace VV
 
         private void placeBid(int bid)
         {
-            browser.Document.GetElementById("jsActiveBidInput").SetAttribute("value", bid.ToString());
-            browser.Document.GetElementById("jsActiveBidButton").InvokeMember("Click");
+            try
+            {
+                browser.Document.GetElementById("jsActiveBidInput").SetAttribute("value", bid.ToString());
+                browser.Document.GetElementById("jsActiveBidButton").InvokeMember("Click");
+            }
+            catch (Exception ex)
+            {
+                log($"EXCEPTION: {ex.Message}");
+            }
         }
 
         private bool wonTheAuction()
@@ -77,6 +84,8 @@ namespace VV
 
             // Time
             var match = Regex.Match(htmlCode, "<div class=\"relative time-container jsDisplayedTimeValue\">(.*)</div>", RegexOptions.Multiline);
+            var matchLastMinute = Regex.Match(htmlCode, "<div class=\"timer-countdown-label\">(.*?)</div>", RegexOptions.Multiline);
+            var probablyLastMinute = false;
             if (match.Success)
             {
                 var timeMatches = Regex.Matches(match.Value, "<span class=\"time-value.*?\">(\\d*)(<span|<\\/span)", RegexOptions.Multiline);
@@ -88,6 +97,20 @@ namespace VV
                     timeString = $"{h}:{m}:{s}";
 
                     secsLeft = (int.Parse(h) * 3600) + (int.Parse(m) * 60) + int.Parse(s);
+                }
+                else
+                {
+                    probablyLastMinute = true;
+                }
+            }
+
+            if (matchLastMinute.Success || probablyLastMinute)
+            {
+                int seconds = 0;
+                if (int.TryParse(matchLastMinute.Groups[1].Value, out seconds) && seconds > 0)
+                {
+                    secsLeft = seconds;
+                    timeString = $"00:00:{seconds}";
                 }
             }
 
@@ -146,14 +169,14 @@ namespace VV
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var start = (sender as Button).Text == "Start";
+            var start = ((Button) sender).Text == "Start";
 
             if (start) {
-                (sender as Button).Text = "Stop";
+                ((Button) sender).Text = "Stop";
                 t.Start();
                 log("Started");
             } else {
-                (sender as Button).Text = "Start";
+                ((Button) sender).Text = "Start";
                 t.Stop();
                 log("Stopped");
             }
